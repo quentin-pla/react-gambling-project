@@ -1,0 +1,2 @@
+# react-gambling-project
+Plateforme de casino/paris en ligne contenant plusieurs jeux pour gagner de l'argent, se jouant à plusieurs joueurs et contenant un chat écrit pour qu'ils puissent échanger entre eux pendant qu'ils jouent.  Un compte est nécessaire pour pouvoir jouer, chaque joueur aura une somme d'argent au départ qui pourront utiliser pour miser et ainsi rapporter du bénéfice ou tout perdre.
