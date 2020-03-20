@@ -9,7 +9,6 @@
     "bootstrap": "latest",
     "concurrently": "latest",
     "express": "latest",
-    "http-proxy-middleware": "^1.0.3",
     "react": "latest",
     "react-bootstrap": "latest",
     "react-dom": "latest",
