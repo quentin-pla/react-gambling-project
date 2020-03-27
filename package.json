@@ -18,8 +18,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "latest",
     "socket.io": "latest",
-    "socket.io-client": "latest",
-    "concurrently": "latest"
+    "socket.io-client": "latest"
   },
   "scripts": {
     "build": "react-scripts build",
@@ -42,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "latest"
   }
 }
