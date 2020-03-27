@@ -18,13 +18,13 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "latest",
     "socket.io": "latest",
-    "socket.io-client": "latest"
+    "socket.io-client": "latest",
+    "concurrently": "latest"
   },
   "scripts": {
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node server.js",
     "client": "react-scripts start"
@@ -43,8 +43,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "concurrently": "latest"
   }
 }
