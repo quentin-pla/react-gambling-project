@@ -8,7 +8,6 @@
     "@testing-library/user-event": "latest",
     "bcrypt": "^4.0.1",
     "bootstrap": "latest",
-    "concurrently": "latest",
     "express": "latest",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.6",
@@ -25,11 +24,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node server.js",
     "client": "react-scripts start"
   },
-  "proxy": "http://localhost:3001/",
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -44,5 +43,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "concurrently": "latest"
+  },
+  "proxy": "http://localhost:3001"
 }
