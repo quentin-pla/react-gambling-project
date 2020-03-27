@@ -12,11 +12,6 @@ const  socket = openSocket('http://localhost:3000');
 
 */
 class ChatClient {
-  // L'événement "set-name", emis depuis le constructeur, permet de changer le nom de l'utilisateur
-  constructor(username) {
-    socket.emit('set-name', username)
-  }
-
   /* Le callback passé à onMessages sera appelé à chaque fois que le serveur nous envoie un tableau de messages.
     Chaque message est composé d'un champ "name" (nom de l'emetteur) et "text" (texte du message).
   */

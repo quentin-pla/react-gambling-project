@@ -1,36 +1,49 @@
-// Import du module socket.io
-const io = require('socket.io')();
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const port = 3001;
 
-/* la liste des messages est stockée dans la variable "messages".
-  Chaque message contient le nom de l'utilisateur qui l'a envoyé et le texte associé.
-  Il y a un premier message de bienvenue dans la liste.
-*/
-const messages = [{name: 'bot', text: 'Bienvenue.'}];
+const Users = require("./src/database/models/User");
+const connect = require("./src/database/dbconnection");
 
-/* Lorsqu'un client se connecte, on met en place la gestion de la communication.
-  Le serveur accepte deux types d'événements :
-    "set-name" pour changer le nom de l'utilisateur ;
-    "post-message" pour ajouter un message au chat.
-  Le client accepte un type d'événement :
-    "add-messages" qui permet d'ajouter une liste de messages à la fenêtre de chat.
-*/
-io.on('connection', (client) => {
-    /* L'événement "set-name" est censé être le premier message envoyé par un client.
-      On sauvegarde le nom passé en paramètre comme un champ du client (attention à pas utiliser des noms de champs du client genre "emit".
-      Puis on envoie la liste des messages préexistants au client.
-      On pourrait améliorer le callback en vérifiant que c'est effectivement le premier message envoyé par le client.
-    */
-    client.on('set-name', (name) => {
-        console.log('set-name ', name);
-        client.username = name;
-        client.emit('add-messages', messages)
+const messages = [{name: 'bot', text: 'Bienvenue.'}]
+
+io.on('connection', function (client) {
+    //Connexion
+    client.on('login', function(username, password) {
+        //Connexion à la base de données
+        connect.then(db  =>  {
+            console.log("-> Connection établie au serveur");
+            console.log("  -> Connexion en cours...");
+            //Vérification si un utilisateur existe avec le pseudo
+            Users.findOne({ 'username': username }, 'username password', function (err, user) {
+                if (user != null) {
+                    user.comparePassword(password, function(err, isMatch) {
+                        client.emit("auth_info", isMatch);
+                    });
+                } else {
+                    client.emit("auth_info", false);
+                    console.log("Utilisateur introuvable.");
+                }
+            });
+        });
     });
 
-    /* L'événement "post-message" est envoyé par un client qui veut écrire dans le chat.
-      On ajoute le message à la liste des messages, puis on envoie à tous les clients (y compris sois-même)
-      le nouveau message. On aurait aussi pu utiliser "client.broadcast.emit" mais il aurait fallu ajouter
-      explicitement le message côté client. Là, il le reçoit par l'intermédiaire de "add-messages".
-    */
+    //Inscription
+    client.on('signup', function(username, password) {
+        //Connexion à la base de données
+        connect.then(db  =>  {
+           console.log("-> Connection établie au serveur");
+           //Création d'un nouvel utilisateur
+           let user = new Users({ username: username, password: password});
+           //Sauvegarde de l'utilisateur
+           user.save();
+           console.log("  -> Utilisateur " + username + " ajouté à la base de données");
+           //Envoi d'un message de succès
+           client.emit("signup_info", true);
+        });
+    });
+
     client.on('post-message', (text) => {
         const message = {name: client.username, text: text};
         console.log('post-message ', message);
@@ -39,11 +52,6 @@ io.on('connection', (client) => {
     });
 });
 
-/* Le serveur attend sur le port 3001 qui est vu comme port 3000 grâce au "proxy" mis en place dans packages.json.
-  À noter que l'on a pas utilisé express ni autre serveur http, mais ce serait tout à fait possible de combiner
-  une API REST avec un service temps réel socket.io.
-*/
-const port = 3001;
-io.listen(port);
-console.log('socket.io listening on port ', port);
-
+http.listen(port, function(){
+    console.log('listening on *:' + port);
+});

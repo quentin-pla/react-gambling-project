@@ -1,146 +1,63 @@
-import React from "react";
+import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link,
     Redirect,
-    useHistory,
-    useLocation
 } from "react-router-dom";
-import {Navbar, Nav, Button} from "react-bootstrap";
+import {Navbar, Nav} from "react-bootstrap";
 import "./App.css";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import PrivateRoute from "./components/routing/PrivateRoute";
+import Home from "./components/pages/Home";
+import Roulette from "./components/pages/Roulette";
+import Crash from "./components/pages/Crash";
+import Jackpot from "./components/pages/Jackpot";
+import Login from "./components/pages/Login";
+import Signup from './components/pages/Signup';
+import {useAuth} from './context/AuthContext';
+import AuthButton from './components/auth/AuthButton';
 
 export default function App() {
     return (
         <Router>
-            <Navbar bg="dark" variant="dark">
+            <Navbar className="purple-gradient" variant="dark">
                 <Navbar.Brand>
-                    <Link class="navbar-brand" to="/home">Casino</Link>
+                    <Link className="navbar-brand" to="/">
+                        <img alt="logo" src={process.env.PUBLIC_URL + '/logo.svg'} width="30" height="20" className="d-inline-block mb-1 mr-2"/>
+                        Casino
+                    </Link>
                 </Navbar.Brand>
                 <NavLinks />
-                <Navbar.Collapse class="justify-content-end">
+                <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text>
                         <AuthButton />
                     </Navbar.Text>
                 </Navbar.Collapse>
             </Navbar>
-
             <Switch>
-                <Route path="/home">
-                    <Home />
-                </Route>
-                <PrivateRoute path="/roulette">
-                    <Roulette />
-                </PrivateRoute>
-                <PrivateRoute path="/crash">
-                    <Crash />
-                </PrivateRoute>
-                <PrivateRoute path="/jackpot">
-                    <Jackpot />
-                </PrivateRoute>
+                <Route exact path="/" component={Home}/>
+                <Route path="/login" component={Login}/>
+                <Route path="/signup" component={Signup}/>
+                <PrivateRoute path="/roulette" component={Roulette}/>
+                <PrivateRoute path="/crash" component={Crash}/>
+                <PrivateRoute path="/jackpot" component={Jackpot}/>
+                <Redirect to="/" />
             </Switch>
         </Router>
     );
 }
 
-const fakeAuth = {
-    isAuthenticated: false,
-    authenticate(cb) {
-        fakeAuth.isAuthenticated = true;
-        setTimeout(cb, 100); // fake async
-    },
-    signout(cb) {
-        fakeAuth.isAuthenticated = false;
-        setTimeout(cb, 100);
-    }
-};
-
 function NavLinks() {
-    useHistory();
+    const isAuthenticated = useAuth().authenticated;
 
-    return fakeAuth.isAuthenticated ? (
+    return isAuthenticated ? (
         <Nav className="mr-auto">
-            <Link class="nav-link" to="/roulette">Roulette</Link>
-            <Link class="nav-link" to="/crash">Crash</Link>
-            <Link class="nav-link" to="/jackpot">Jackpot</Link>
+            <Link className="nav-link" to="/roulette">Roulette</Link>
+            <Link className="nav-link" to="/crash">Crash</Link>
+            <Link className="nav-link" to="/jackpot">Jackpot</Link>
         </Nav>
     ) : (
         <Nav className="mr-auto"/>
-    );
-}
-
-function AuthButton() {
-    let history = useHistory();
-
-    return fakeAuth.isAuthenticated ? (
-        <Button variant="outline-primary" onClick={() => {fakeAuth.signout(() => history.push("/home"));}}>
-            Déconnexion
-        </Button>
-    ) : (
-        <LoginButton/>
-    );
-}
-
-function PrivateRoute({children}) {
-    return (
-        <Route
-            render={({location}) =>
-                fakeAuth.isAuthenticated ? (
-                    children
-                ) : (
-                    <Redirect
-                        to={{
-                            pathname: "/home",
-                            state: { from: location }
-                        }}
-                    />
-                )
-            }
-        />
-    );
-}
-
-function Home() {
-    return (
-        <Container>
-            <Row className="justify-content-md-center">
-                <Col md="auto">
-                    <h1>Bienvenue</h1>
-                </Col>
-            </Row>
-        </Container>
-    );
-}
-
-function Roulette() {
-    return <h3>Roulette</h3>;
-}
-
-function Crash() {
-    return <h3>Crash</h3>;
-}
-
-function Jackpot() {
-    return <h3>Jackpot</h3>;
-}
-
-function LoginButton() {
-    let history = useHistory();
-    let location = useLocation();
-
-    let { from } = location.state || { from: { pathname: "/home" } };
-
-    let login = () => {
-        fakeAuth.authenticate(() => {
-            history.replace(from);
-        });
-    };
-
-    return (
-        <Button variant="outline-primary" onClick={login}>Connexion</Button>
     );
 }

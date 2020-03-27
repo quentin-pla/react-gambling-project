@@ -37,22 +37,6 @@ class InputField extends React.Component {
   }
 }
 
-/* La fenêtre de login, présentée en premier dans l'application.
-  Elle comporte un champ "Nom" et un bouton "Rejoindre".
-  Elle possède les propriétés suivantes :
-  - onNameChange : callback appelé lorsque la valeur du nom change
-  - onLogin : callback appelé lorsque l'on se connecte
-*/
-class LoginWindow extends React.Component {
-  render() {
-    return <div>
-    <h1>Chat</h1>
-    <InputField label="Nom" onChange={this.props.onNameChange} onSubmit={this.props.onLogin} autoFocus />
-    <button onClick={this.props.onLogin}>Rejoindre</button>
-    </div>
-  }
-}
-
 /* La fenêtre de chat, présentée une fois que l'utilisateur s'est connecté.
   Elle montre le nom de l'utilisateur, la liste des messages, un champ pour ajouter un message et un bouton pour quitter.
   Elle possède les propriétés suivantes :

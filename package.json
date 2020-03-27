@@ -6,16 +6,18 @@
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "@testing-library/user-event": "latest",
+    "bcrypt": "^4.0.1",
     "bootstrap": "latest",
     "concurrently": "latest",
     "express": "latest",
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.6",
     "react": "latest",
     "react-bootstrap": "latest",
     "react-dom": "latest",
     "react-router-bootstrap": "latest",
-    "react-router-dom": "latest",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "latest",
-    "request": "latest",
     "socket.io": "latest",
     "socket.io-client": "latest"
   },
@@ -27,6 +29,7 @@
     "server": "node server.js",
     "client": "react-scripts start"
   },
+  "proxy": "http://localhost:3001/",
   "eslintConfig": {
     "extends": "react-app"
   },
