@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "start": "node server/server.js",
-    "build": "cd react-ui && npm install && npm run build"
+    "build": "cd react-ui/ && npm install && npm run build"
   },
   "devDependencies": {
     "concurrently": "latest"
