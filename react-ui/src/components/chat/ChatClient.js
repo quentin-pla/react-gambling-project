@@ -1,14 +1,14 @@
 import openSocket from 'socket.io-client';
-/* Le client se connecte à cette URL */
+/* Le react-ui se connecte à cette URL */
 const  socket = openSocket('http://localhost:3000');
 
 /* La classe "ChatClient" permet de communiquer avec le serveur de chat.
 
-  client = new ChatClient("pseudonyme")
-  client.onMessages((messages) => {
+  react-ui = new ChatClient("pseudonyme")
+  react-ui.onMessages((messages) => {
     // ajouter les messages à l'interface graphique
   })
-  client.sendMessage("Bonjour à tous")
+  react-ui.sendMessage("Bonjour à tous")
 
 */
 class ChatClient {
@@ -20,7 +20,7 @@ class ChatClient {
   }
 
   /* Envoyer un message à l'aide de l'événement "post-message". Le message sera reçu dans le champ "text" d'un message
-    par tous les participants au chat, y compris le client qui l'a envoyé.
+    par tous les participants au chat, y compris le react-ui qui l'a envoyé.
   */
   sendMessage(message) {
     socket.emit('post-message', message)

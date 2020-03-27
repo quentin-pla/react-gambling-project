@@ -45,7 +45,7 @@ class InputField extends React.Component {
   Elle possède l'état suivant :
   - messages : liste des messages affichés
   La méthode "submitMessage" peut être appelée pour envoyer un message
-  La méthode "addMessages" peut être appelée pour ajouter une liste de messages. Elle est utilisée par le client de chat pour ajouter des messages provenant du serveur.
+  La méthode "addMessages" peut être appelée pour ajouter une liste de messages. Elle est utilisée par le react-ui de chat pour ajouter des messages provenant du serveur.
 */
 class ChatWindow extends React.Component {
   constructor(props) {
