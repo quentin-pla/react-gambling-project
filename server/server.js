@@ -3,8 +3,8 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 3001;
 
-const Users = require("./src/database/models/User");
-const connect = require("./src/database/dbconnection");
+const Users = require("../client/src/database/models/User");
+const connect = require("../client/src/database/dbconnection");
 
 const messages = [{name: 'bot', text: 'Bienvenue.'}]
 

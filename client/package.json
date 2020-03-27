@@ -1,10 +1,30 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "sourceMap": true
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "latest",
+    "react": "latest",
+    "react-bootstrap": "latest",
+    "react-dom": "latest",
+    "react-router-bootstrap": "latest",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "latest"
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "proxy": "http://localhost:3001"
 }
