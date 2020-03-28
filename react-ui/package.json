@@ -2,6 +2,9 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "13.8.x"
+  },
   "dependencies": {
     "bootstrap": "latest",
     "react": "latest",
@@ -25,6 +28,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "proxy": "http://localhost:3001"
+  ]
 }

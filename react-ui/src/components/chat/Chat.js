@@ -12,20 +12,20 @@ import {ChatClient} from './ChatClient';
 */
 class InputField extends React.Component {
   constructor() {
-    super()
-    this.state = {value: ""}
-    this.handleChange = this.handleChange.bind(this)
+    super();
+    this.state = {value: ""};
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange(event) {
-    if(this.props.onChange) this.props.onChange(event.target.value)
+    if(this.props.onChange) this.props.onChange(event.target.value);
     this.setState({value: event.target.value})
   }
 
   handleSubmit(event) {
-    if(this.props.onSubmit) this.props.onSubmit(this.state.value)
-    this.setState({value: ""})
+    if(this.props.onSubmit) this.props.onSubmit(this.state.value);
+    this.setState({value: ""});
     event.preventDefault()
   }
 
@@ -49,12 +49,12 @@ class InputField extends React.Component {
 */
 class ChatWindow extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = {messages: []}
-    this.submitMessage = this.submitMessage.bind(this)
-    this.addMessages = this.addMessages.bind(this)
+    super(props);
+    this.state = {messages: []};
+    this.submitMessage = this.submitMessage.bind(this);
+    this.addMessages = this.addMessages.bind(this);
 
-    this.chat = new ChatClient(this.props.name)
+    this.chat = new ChatClient(this.props.name);
     this.chat.onMessages(this.addMessages)
   }
 
@@ -69,7 +69,7 @@ class ChatWindow extends React.Component {
   }
 
   render() {
-    const messages = this.state.messages.map((m) => <li key={m.name + m.text}> {m.name}: {m.text} </li>)
+    const messages = this.state.messages.map((m) => <li key={m.name + m.text}> {m.name}: {m.text} </li>);
     return (
       <div>
         <h1>Messages</h1>
@@ -97,11 +97,11 @@ class ChatWindow extends React.Component {
 */
 class Chat extends React.Component {
   constructor() {
-    super()
-    this.state = {name: "", current: "login"}
+    super();
+    this.state = {name: "", current: "login"};
 
-    this.closeChat = this.closeChat.bind(this)
-    this.startChat = this.startChat.bind(this)
+    this.closeChat = this.closeChat.bind(this);
+    this.startChat = this.startChat.bind(this);
     this.setName = this.setName.bind(this)
   }
 
@@ -119,7 +119,7 @@ class Chat extends React.Component {
 
   render() {
     if(this.state.current === "login")
-      return <LoginWindow onNameChange={this.setName} onLogin={this.startChat} />
+      return <LoginWindow onNameChange={this.setName} onLogin={this.startChat} />;
     else
       return <ChatWindow name={this.state.name} onQuit={this.closeChat} />
   }
