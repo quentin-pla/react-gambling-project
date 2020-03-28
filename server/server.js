@@ -1,10 +1,13 @@
 const express = require('express');
+const socketIO = require('socket.io');
+
 const path = require('path');
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 const app = express()
     .use(express.static(path.join(__dirname, '/../react-ui/build')))
     .listen(port, () => console.log(`Listening on ${port}`));
-const io = require('socket.io')(app);
+
+const io = socketIO(app);
 
 const Users = require("../react-ui/src/database/models/User");
 const connect = require("../react-ui/src/database/dbconnection");
