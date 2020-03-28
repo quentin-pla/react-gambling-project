@@ -11,8 +11,6 @@ const connect = require("../react-ui/src/database/dbconnection");
 
 const messages = [{name: 'bot', text: 'Bienvenue.'}];
 
-app.use(express.static(path.join(__dirname, '/../react-ui/build')));
-
 io.on('connection', function (client) {
     //Connexion
     client.on('login', function (username, password) {
@@ -56,6 +54,8 @@ io.on('connection', function (client) {
         io.emit('add-messages', [message])
     });
 });
+
+app.use(express.static(path.join(__dirname, '/../react-ui/build')));
 
 http.listen(port, function () {
     console.log('listening on *:' + port);
