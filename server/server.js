@@ -1,4 +1,5 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
@@ -8,6 +9,9 @@ const Users = require("../react-ui/src/database/models/User");
 const connect = require("../react-ui/src/database/dbconnection");
 
 const messages = [{name: 'bot', text: 'Bienvenue.'}];
+
+app.use(express.static('build'));
+app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')));
 
 io.on('connection', function (client) {
     //Connexion
