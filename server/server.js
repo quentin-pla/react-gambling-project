@@ -1,10 +1,10 @@
 const express = require('express');
 const path = require('path');
-const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-
 const port = process.env.PORT || 3001;
+const app = express()
+    .use(express.static(path.join(__dirname, '/../react-ui/build')))
+    .listen(port, () => console.log(`Listening on ${port}`));
+const io = require('socket.io')(app);
 
 const Users = require("../react-ui/src/database/models/User");
 const connect = require("../react-ui/src/database/dbconnection");
@@ -53,10 +53,4 @@ io.on('connection', function (client) {
         messages.push(message);
         io.emit('add-messages', [message])
     });
-});
-
-app.use(express.static(path.join(__dirname, '/../react-ui/build')));
-
-http.listen(port, function () {
-    console.log('listening on *:' + port);
 });
