@@ -12,6 +12,8 @@ const connect = require("../react-ui/src/database/dbconnection");
 const messages = [{name: 'bot', text: 'Bienvenue.'}];
 
 io.on('connection', function (client) {
+    client.connect("https://nodejs-gambling.herokuapp.com/");
+
     //Connexion
     client.on('login', function (username, password) {
         //Connexion à la base de données
