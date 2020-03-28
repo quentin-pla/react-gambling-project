@@ -2,9 +2,9 @@ const express = require('express');
 const socketIO = require('socket.io');
 
 const path = require('path');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const app = express()
-    .use(express.static(path.join(__dirname, '/../react-ui/build')))
+    .use(express.static(path.join(__dirname, '../react-ui/build')))
     .listen(port, () => console.log(`Listening on ${port}`));
 
 const io = socketIO(app);
