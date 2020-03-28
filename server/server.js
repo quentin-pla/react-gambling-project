@@ -9,11 +9,6 @@ const connect = require("../react-ui/src/database/dbconnection");
 
 const messages = [{name: 'bot', text: 'Bienvenue.'}];
 
-if (process.env.NODE_ENV === 'production') {
-    // Exprees will serve up production assets
-    app.use('../react-ui/build');
-}
-
 io.on('connection', function (client) {
     //Connexion
     client.on('login', function (username, password) {
