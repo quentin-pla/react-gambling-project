@@ -6,12 +6,8 @@
     "node": "13.8.x"
   },
   "dependencies": {
-    "bcrypt": "^4.0.1",
     "express": "latest",
-    "mongodb": "^3.5.5",
-    "mongoose": "^5.9.6",
-    "socket.io": "latest",
-    "socket.io-client": "latest"
+    "socket.io": "latest"
   },
   "cacheDirectories": [
     "node_modules",
