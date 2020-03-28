@@ -11,8 +11,7 @@ const connect = require("../react-ui/src/database/dbconnection");
 
 const messages = [{name: 'bot', text: 'Bienvenue.'}];
 
-app.use(express.static('build'));
-app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')));
+app.use(express.static(path.join(__dirname, '/../react-ui/build')));
 
 io.on('connection', function (client) {
     //Connexion
