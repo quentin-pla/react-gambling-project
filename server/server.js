@@ -9,8 +9,8 @@ const app = express()
 
 const io = socketIO(app);
 
-const Users = require("../react-ui/src/database/models/User");
-const connect = require("../react-ui/src/database/dbconnection");
+const Users = require(path.join(__dirname, "../react-ui/src/database/models/User"));
+const connect = require(path.join(__dirname, "../react-ui/src/database/dbconnection"));
 
 const messages = [{name: 'bot', text: 'Bienvenue.'}];
 
