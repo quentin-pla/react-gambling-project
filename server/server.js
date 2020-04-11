@@ -22,10 +22,10 @@ io.on('connection', function (client) {
             console.log("-> Connection établie au serveur");
             console.log("  -> Connexion en cours...");
             //Vérification si un utilisateur existe avec le pseudo
-            Users.findOne({'username': username}, 'username password', function (err, user) {
+            Users.findOne({'username': username}, 'username password money', function (err, user) {
                 if (user != null) {
-                    user.comparePassword(password, function (err, isMatch) {
-                        client.emit("auth_info", isMatch);
+                    user.comparePassword(password, function (err, success) {
+                        client.emit("auth_info", success, user);
                     });
                 } else {
                     client.emit("auth_info", false);
@@ -46,13 +46,16 @@ io.on('connection', function (client) {
             user.save();
             console.log("  -> Utilisateur " + username + " ajouté à la base de données");
             //Envoi d'un message de succès
-            client.emit("signup_info", true);
+            client.emit("signup_info", true, user);
         });
     });
 
-    client.on('post-message', (text) => {
-        const message = {name: client.username, text: text};
-        console.log('post-message ', message);
+    client.on('start-chat', () => {
+        client.emit('add-messages', messages);
+    });
+
+    client.on('post-message', (author, text) => {
+        const message = {name: author, text: text};
         messages.push(message);
         io.emit('add-messages', [message])
     });

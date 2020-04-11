@@ -5,26 +5,22 @@ import {useAuth} from "../../context/AuthContext";
 import {Card, Form, Button, Row, Container} from "react-bootstrap";
 
 function Signup(props) {
-    const referer = (props.location.state != null) ? props.location.state.referer : '/';
     const socket = io();
     const auth = useAuth();
 
     const [isError, setIsError] = useState(false);
-    const [username, setUserName] = useState("");
-    const [password, setPassword] = useState("");
     const [password_confirm, setPasswordConfirm] = useState("");
 
     //Fonction pour envoyer les infos pour l'inscription
     function postSignup() {
         //Vérification que les deux mots de passe correspondent
-        if (password === password_confirm) {
+        if (auth.password === password_confirm) {
             //Émission d'un message avec les infos
-            socket.emit("signup", username, password);
+            socket.emit("signup", auth.username, auth.password);
             //Lors de la réception d'un message de succès d'authentification
-            socket.on("signup_info", function (success) {
+            socket.on("signup_info", function (success, user) {
                 if (success) {
-                    auth.setUsername(username);
-                    auth.setPassword(password);
+                    props.onUpdateUserData(user.username, user.money);
                     auth.setAuthenticated(true);
                 }
                 else setIsError(true);
@@ -37,7 +33,7 @@ function Signup(props) {
     }
 
     if (auth.authenticated) {
-        return <Redirect to={referer} />;
+        return <Redirect to="/" />;
     }
 
     return (
@@ -52,7 +48,7 @@ function Signup(props) {
                             <Form.Control
                                 type="text"
                                 onChange={e => {
-                                    setUserName(e.target.value);
+                                    auth.setUsername(e.target.value);
                                 }}
                                 placeholder="Identifiant"
                             />
@@ -61,7 +57,7 @@ function Signup(props) {
                             <Form.Control
                                 type="password"
                                 onChange={e => {
-                                    setPassword(e.target.value);
+                                    auth.setPassword(e.target.value);
                                 }}
                                 placeholder="Mot de passe"
                             />

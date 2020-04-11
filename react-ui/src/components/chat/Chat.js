@@ -1,15 +1,7 @@
 import React from 'react';
 import {ChatClient} from './ChatClient';
+import {Form} from "react-bootstrap";
 
-/* Une simple classe qui gère un champ de texte. Ce dernier est utilisé pour entrer le nom de l'utilisateur et la saisie de messages
-  Elle accepte les propriétés suivantes :
-  - label : étiquette à gauche du champ
-  - onChange : callback appelé chaque fois que le contenu change
-  - onSubmit : callback appelé quand on appuie sur entrée
-  - autoFocus : si le champ doit avoir le focus ou non
-
-  <InputField label="Nom" onChange={this.props.onChange} onSubmit={this.props.onClick} autoFocus />
-*/
 class InputField extends React.Component {
   constructor() {
     super();
@@ -30,98 +22,59 @@ class InputField extends React.Component {
   }
 
   render() {
-    return (<form onSubmit={this.handleSubmit}>
-        <label>{this.props.label} </label>
-        <input type="text" onChange={this.handleChange} value={this.state.value} autoFocus={this.props.autoFocus} />
-      </form>)
+    return (
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Control
+                type="text"
+                placeholder="Message"
+                onChange={this.handleChange}
+                value={this.state.value}
+                autoFocus={this.props.autoFocus}
+            />
+          </Form.Group>
+        </Form>
+    );
   }
 }
 
-/* La fenêtre de chat, présentée une fois que l'utilisateur s'est connecté.
-  Elle montre le nom de l'utilisateur, la liste des messages, un champ pour ajouter un message et un bouton pour quitter.
-  Elle possède les propriétés suivantes :
-  - name : nom de l'utilisateur
-  - onQuit : callback appelé lorsque l'on clique sur quitter
-  Elle possède l'état suivant :
-  - messages : liste des messages affichés
-  La méthode "submitMessage" peut être appelée pour envoyer un message
-  La méthode "addMessages" peut être appelée pour ajouter une liste de messages. Elle est utilisée par le react-ui de chat pour ajouter des messages provenant du serveur.
-*/
-class ChatWindow extends React.Component {
+class Chat extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {messages: []};
+    this.state = {messages: [], name : this.props.name};
     this.submitMessage = this.submitMessage.bind(this);
     this.addMessages = this.addMessages.bind(this);
 
-    this.chat = new ChatClient(this.props.name);
-    this.chat.onMessages(this.addMessages)
+    this.chat = new ChatClient();
+    this.chat.onMessages(this.addMessages);
   }
 
   addMessages(messages) {
     this.setState((state, props) => ({
       messages: state.messages.concat(messages)
-    }))
+    }));
+    this.props.scrollDown();
   }
 
   submitMessage(text) {
-    this.chat.sendMessage(text)
+    this.chat.sendMessage(this.state.name, text);
   }
 
   render() {
-    const messages = this.state.messages.map((m) => <li key={m.name + m.text}> {m.name}: {m.text} </li>);
+    const messages = this.state.messages.map(
+        (m, index) => <li className="list-group-item" key={index}>
+          <strong>{m.name}</strong> {m.text}
+        </li>
+    );
+
     return (
-      <div>
-        <h1>Messages</h1>
-        Pseudo : {this.props.name}
-        <InputField label="Message" onSubmit={this.submitMessage} autoFocus />
-        <ul>
+      <>
+        <ul className="list-group" id="message-list">
           {messages}
         </ul>
-        <button onClick={this.props.onQuit}>Quitter</button>
-      </div>
+        <InputField label="Message" onSubmit={this.submitMessage} autoFocus />
+      </>
     );
-  }
-}
-
-/* L'application est composé de deux vues :
-  - LoginWindow : la fenêtre de login avec un champ "nom" et un bouton "rejoindre"
-  - ChatWindow : la fenêtre de discussion avec un champ "message", la liste des messages et un bouton "quitter"
-  L'état est composé de :
-  - name : le nom de l'utilisateur
-  - current : la fenêtre à afficher (login ou chat)
-  Les méthodes sont les suivantes :
-  - closeChat : terminer une session de chat
-  - startChat : commencer un chat avec comme nom celui actuellement dans l'état
-  - setName : changer le nom stocké dans l'état
-*/
-class Chat extends React.Component {
-  constructor() {
-    super();
-    this.state = {name: "", current: "login"};
-
-    this.closeChat = this.closeChat.bind(this);
-    this.startChat = this.startChat.bind(this);
-    this.setName = this.setName.bind(this)
-  }
-
-  closeChat() {
-    this.setState({current: "login"})
-  }
-
-  startChat() {
-    this.setState({current: "chat"})
-  }
-
-  setName(name) {
-    this.setState({name: name})
-  }
-
-  render() {
-    if(this.state.current === "login")
-      return <LoginWindow onNameChange={this.setName} onLogin={this.startChat} />;
-    else
-      return <ChatWindow name={this.state.name} onQuit={this.closeChat} />
   }
 }
 

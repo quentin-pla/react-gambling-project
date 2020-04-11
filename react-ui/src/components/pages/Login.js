@@ -6,7 +6,6 @@ import {useAuth} from "../../context/AuthContext";
 import {Form, Button, Card, Container, Row} from "react-bootstrap";
 
 function Login(props) {
-    const referer = (props.location.state != null) ? props.location.state.referer : '/';
     const socket = io();
     const auth = useAuth();
     const history = useHistory();
@@ -14,8 +13,9 @@ function Login(props) {
 
     function postLogin() {
         socket.emit("login", auth.username, auth.password);
-        socket.on("auth_info", function(success) {
+        socket.on("auth_info", function(success, user) {
             if (success) {
+                props.onUpdateUserData(user.username, user.money);
                 auth.setAuthenticated(true);
             }
             else {
@@ -27,7 +27,7 @@ function Login(props) {
     }
 
     if (auth.authenticated) {
-        return <Redirect to={referer} />;
+        return <Redirect to="/"/>;
     }
 
     function handleClick(e) {
@@ -63,7 +63,7 @@ function Login(props) {
                         <Button variant="dark" className="mt-4 border-0" onClick={postLogin} block>
                             Connexion
                         </Button>
-                        <Button className="mb-4 text-white purple-gradient border-0" onClick={handleClick} block>
+                        <Button className="mb-4 text-white navbar-top border-0" onClick={handleClick} block>
                             Créer un compte
                         </Button>
                     </Form>

@@ -24,8 +24,9 @@ p {
     border: none;
 }
 
-.purple-gradient {
+.navbar-top {
     background: linear-gradient(0.45turn, #a160cc, #fc5e8c);
+    z-index: 1;
 }
 
 .fade-effect {
@@ -41,4 +42,37 @@ p {
         opacity: 1;
         transform: translate3d(0, 0, 0);
     }
+}
+
+#message-list {
+    min-height: 78vh;
+    max-height: 78vh;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+#message-list:hover {
+    overflow-y: scroll;
+}
+
+.message-list-fader {
+    background: white;
+    position: absolute;
+    z-index: 1;
+    box-shadow: -12px 15px 8px 7px #FFF;
+    flex: 0 0 20%;
+    max-width: 20%;
+    min-height: 1px;
+}
+
+#message-list .list-group-item {
+    border: none;
+    padding: .1rem;
+}
+
+.chat-container {
+    flex: 0 0 20%;
+    max-width: 20%;
+    box-shadow: 10px 0px 20px 1px #00000040;
+    padding-top: 1rem;
 }

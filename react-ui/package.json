@@ -6,16 +6,19 @@
     "node": "13.8.x"
   },
   "dependencies": {
+    "bcrypt": "latest",
     "bootstrap": "latest",
+    "jquery": "latest",
+    "jquery-ui": "latest",
+    "jquery.scrollto": "^2.1.2",
+    "mongodb": "latest",
+    "mongoose": "latest",
     "react": "latest",
     "react-bootstrap": "latest",
     "react-dom": "latest",
     "react-router-bootstrap": "latest",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "latest",
-    "mongodb": "^3.5.5",
-    "mongoose": "^5.9.6",
-    "bcrypt": "^4.0.1",
+    "react-scripts": "^3.4.1",
     "socket.io-client": "latest"
   },
   "scripts": {
