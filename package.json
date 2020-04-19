@@ -6,6 +6,7 @@
     "node": "13.8.x"
   },
   "dependencies": {
+    "@std/esm": "^0.26.0",
     "express": "latest",
     "socket.io": "latest"
   },
