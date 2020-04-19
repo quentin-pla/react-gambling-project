@@ -1,28 +1,41 @@
-import {useAuth} from "../../context/AuthContext";
+import {AuthContext} from "../../context/AuthContext";
 import {Button} from "react-bootstrap";
-import {useHistory} from "react-router-dom";
-import React from "react";
+import React, {Component} from "react";
+import {withRouter} from 'react-router-dom';
 
-export default function AuthButton() {
-    const history = useHistory();
-    const auth = useAuth();
+/**
+ * Bouton connexion/déconnexion
+ */
+class AuthButton extends Component {
+    /**
+     * Contexte d'authentification
+     */
+    static contextType = AuthContext;
 
-    function handleClick(e) {
+    /**
+     * Évènement lorsque l'utilisateur appuie sur le bouton
+     * @param e évènement
+     */
+    handleClick(e) {
         e.preventDefault();
-        if(auth.authenticated) {
-            auth.setAuthenticated(false);
-            auth.setUsername(null);
-            auth.setPassword(null);
-            history.push("/");
+        //Si l'utilisateur est authentifié
+        if(this.context.authenticated) {
+            //Déconnexion de l'utilisateur
+            this.context.disconnect();
+            //Redirection vers la page d'accueil
+            this.props.history.push("/");
         }
-        else {
-            history.push("/login");
-        }
+        //Redirection vers la page de connexion
+        else this.props.history.push("/login");
     }
 
-    return auth.authenticated ? (
-        <Button variant="outline-light" onClick={handleClick}>Déconnexion</Button>
-    ) : (
-        <Button variant="outline-light" onClick={handleClick}>Connexion</Button>
-    );
+    render() {
+        return this.context.authenticated ? (
+            <Button variant="outline-light" onClick={(e) => this.handleClick(e)}>Déconnexion</Button>
+        ) : (
+            <Button variant="outline-light" onClick={(e) => this.handleClick(e)}>Connexion</Button>
+        );
+    }
 }
+
+export default withRouter(AuthButton);
