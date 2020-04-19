@@ -1,6 +1,7 @@
 import React from 'react';
 import {ChatClient} from './ChatClient';
 import {Form} from "react-bootstrap";
+import {AuthContext} from "../../context/AuthContext";
 
 class InputField extends React.Component {
   constructor() {
@@ -12,36 +13,39 @@ class InputField extends React.Component {
 
   handleChange(event) {
     if(this.props.onChange) this.props.onChange(event.target.value);
-    this.setState({value: event.target.value})
+    this.setState({value: event.target.value});
+    event.preventDefault();
   }
 
   handleSubmit(event) {
     if(this.props.onSubmit) this.props.onSubmit(this.state.value);
     this.setState({value: ""});
-    event.preventDefault()
+    event.preventDefault();
   }
 
   render() {
     return (
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group controlId="formBasicEmail">
             <Form.Control
                 type="text"
                 placeholder="Message"
                 onChange={this.handleChange}
                 value={this.state.value}
-                autoFocus={this.props.autoFocus}
             />
-          </Form.Group>
         </Form>
     );
   }
 }
 
 class Chat extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {messages: [], name : this.props.name};
+  /**
+   * Contexte d'authentification
+   */
+  static contextType = AuthContext;
+
+  constructor(props,context) {
+    super(props,context);
+    this.state = {messages: []};
     this.submitMessage = this.submitMessage.bind(this);
     this.addMessages = this.addMessages.bind(this);
 
@@ -50,14 +54,14 @@ class Chat extends React.Component {
   }
 
   addMessages(messages) {
-    this.setState((state, props) => ({
+    this.setState((state) => ({
       messages: state.messages.concat(messages)
     }));
     this.props.scrollDown();
   }
 
   submitMessage(text) {
-    this.chat.sendMessage(this.state.name, text);
+    this.chat.sendMessage(this.context.username, text);
   }
 
   render() {
@@ -72,7 +76,7 @@ class Chat extends React.Component {
         <ul className="list-group" id="message-list">
           {messages}
         </ul>
-        <InputField label="Message" onSubmit={this.submitMessage} autoFocus />
+        <InputField label="Message" onSubmit={this.submitMessage}/>
       </>
     );
   }

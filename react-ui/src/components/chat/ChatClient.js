@@ -1,18 +1,20 @@
-import io from "socket.io-client";
-/* Le react-ui se connecte à cette URL */
-const socket = io();
+/**
+ * Instance socket IO
+ */
+import socket from "../../context/SocketIOInstance";
 
 class ChatClient {
+
   constructor() {
-    socket.emit('start-chat')
+    socket.emit('start-chat');
   }
 
   onMessages(cb) {
-    socket.on('add-messages', (messages) => cb(messages))
+    socket.on('add-messages', (messages) => cb(messages));
   }
 
   sendMessage(author, message) {
-    socket.emit('post-message', author, message)
+    socket.emit('post-message', author, message);
   }
 }
 
