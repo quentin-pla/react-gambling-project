@@ -1,15 +1,20 @@
-import React from "react";
+import React, {Component} from "react";
 import {Redirect, Route} from 'react-router-dom';
-import {useAuth} from '../../context/AuthContext';
+import {AuthContext} from "../../context/AuthContext";
 
-function PrivateRoute({children}) {
-    const isAuthenticated = useAuth().authenticated;
+class PrivateRoute extends Component {
+    /**
+     * Contexte d'authentification
+     */
+    static contextType = AuthContext;
 
-    return (
-        <Route>
-            {isAuthenticated ? children : <Redirect to={{pathname: "/login"}}/>}
-        </Route>
-    );
+    render() {
+        return (
+            <Route>
+                {this.context.authenticated ? this.props.children : <Redirect to={{pathname: "/login"}}/>}
+            </Route>
+        );
+    }
 }
 
 export default PrivateRoute;
