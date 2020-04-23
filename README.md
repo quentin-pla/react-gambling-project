@@ -16,3 +16,8 @@ Casino en ligne, reprenant le jeu de la roulette. Le jeu est tiré en temps rée
 ##### Interface utilisateur
 - [x] React
 - [x] Bootstrap
+
+------------
+### Cheat code
+Pour utiliser un cheat code, il suffit de le taper dans la barre de chat de l'application.
+- Incrémenter le solde du compte: /get_money montant
