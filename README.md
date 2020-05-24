@@ -1,5 +1,7 @@
 # Projet Applications Web : Casino
 
+-> [Démo de l'application](https://nodejs-gambling.herokuapp.com/) <-
+
 ### Exécuter l'application localement
 - Installer les dépendances de chaque fichier package.json en tapant `npm install`
 - Dans un premier terminal, se rendre dans le dossier /server et taper la commande `npm start`
